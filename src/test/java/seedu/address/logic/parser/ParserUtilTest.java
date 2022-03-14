@@ -82,6 +82,38 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseIndexWithContent_invalidInput_throwsParseException() {
+        // No content
+        assertThrows(ParseException.class, () -> ParserUtil.parseIndexWithContent("1"));
+
+        // No separation
+        assertThrows(ParseException.class, () -> ParserUtil.parseIndexWithContent("2test"));
+
+        // Negative integer for index
+        assertThrows(ParseException.class, () -> ParserUtil.parseIndexWithContent("-5 test"));
+
+        // Index not integer
+        assertThrows(ParseException.class, () -> ParserUtil.parseIndexWithContent("a test"));
+    }
+
+    @Test
+    public void parseIndexWithContent_validInput_success() throws Exception {
+        // No whitespaces
+        Pair<Index[], String> parsedInput = ParserUtil.parseDoubleIndexWithContent("1 test");
+        Index[] index = parsedInput.getKey();
+        String content = parsedInput.getValue();
+        assertEquals(INDEX_FIRST_COMPANY, index);
+        assertEquals(content, " test");
+
+        // Leading and trailing whitespaces
+        Pair<Index[], String> whiteSpaceInput = ParserUtil.parseDoubleIndexWithContent("  1     1   test");
+        index = parsedInput.getKey();
+        content = parsedInput.getValue();
+        assertEquals(INDEX_FIRST_COMPANY, index);
+        assertEquals(content, " test");
+    }
+
+    @Test
     public void parseDoubleIndexWithContent_invalidInput_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseDoubleIndexWithContent("1 0"));
         assertThrows(ParseException.class, () -> ParserUtil.parseDoubleIndex("10 a"));
