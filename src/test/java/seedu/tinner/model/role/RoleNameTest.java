@@ -28,13 +28,23 @@ public class RoleNameTest {
         assertFalse(RoleName.isValidName("")); // empty string
         assertFalse(RoleName.isValidName(" ")); // spaces only
         assertFalse(RoleName.isValidName("^")); // only non-alphanumeric characters
+        assertFalse(RoleName.isValidName("(")); // left bracket only
+        assertFalse(RoleName.isValidName(")")); // right bracket only
         assertFalse(RoleName.isValidName("technician*")); // contains non-alphanumeric characters
+        assertFalse(RoleName.isValidName("engineer ( backend")); // alphanumeric and left bracket only
+        assertFalse(RoleName.isValidName("engineer (()")); // alphanumeric and multiple left brackets
+        assertFalse(RoleName.isValidName("engineer ())")); // alphanumeric and multiple right brackets
+        assertFalse(RoleName.isValidName("engineer ) front end (")); // alphanumeric and wrong order of brackets
+        assertFalse(RoleName.isValidName("teacher (test.)")); // alphanumeric, brackets and dot
+        assertFalse(RoleName.isValidName("staff (.)  ( admin")); //alphanumeric, wrong order brackets and dot
+        assertFalse(RoleName.isValidName("(Backend)")); // brackets containing alphanumeric only
 
         // valid name
-        assertTrue(RoleName.isValidName("software engineer")); // alphabets only
+        assertTrue(RoleName.isValidName("Database Management and Server Integration")); // long names
         assertTrue(RoleName.isValidName("12345")); // numbers only
         assertTrue(RoleName.isValidName("data analyst 2")); // alphanumeric characters
         assertTrue(RoleName.isValidName("Frontend Developer")); // with capital letters
-        assertTrue(RoleName.isValidName("Database Management and Server Integration")); // long names
+        assertTrue(RoleName.isValidName("SWE ()")); // alphanumeric and brackets
+        assertTrue(RoleName.isValidName("SWE (Backend)")); // alphanumeric and brackets
     }
 }
