@@ -50,11 +50,11 @@ public class AddCompanyCommandParser implements Parser<AddCompanyCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getOptionalValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getOptionalValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getOptionalValue(PREFIX_ADDRESS).get());
+
         RoleList roles = new RoleList();
 
         Company company = new Company(name, phone, email, address, roles);
 
         return new AddCompanyCommand(company);
     }
-
 }
