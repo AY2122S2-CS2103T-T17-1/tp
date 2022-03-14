@@ -99,14 +99,14 @@ public class ParserUtilTest {
     @Test
     public void parseIndexWithContent_validInput_success() throws Exception {
         // No whitespaces
-        Pair<Index[], String> parsedInput = ParserUtil.parseDoubleIndexWithContent("1 test");
-        Index[] index = parsedInput.getKey();
+        Pair<Index, String> parsedInput = ParserUtil.parseIndexWithContent("1 test");
+        Index index = parsedInput.getKey();
         String content = parsedInput.getValue();
         assertEquals(INDEX_FIRST_COMPANY, index);
         assertEquals(content, " test");
 
         // Leading and trailing whitespaces
-        Pair<Index[], String> whiteSpaceInput = ParserUtil.parseDoubleIndexWithContent("  1     1   test");
+        Pair<Index, String> whiteSpaceInput = ParserUtil.parseIndexWithContent("  1      test");
         index = parsedInput.getKey();
         content = parsedInput.getValue();
         assertEquals(INDEX_FIRST_COMPANY, index);
