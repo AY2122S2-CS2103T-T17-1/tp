@@ -25,6 +25,36 @@ public class RoleTest {
     }
 
     @Test
+    public void isSameRole() {
+        //same object -> returns true
+        assertTrue(ML_ENGINEER.isSameRole(ML_ENGINEER));
+
+        //same name -> return true
+        assertTrue(MOBILE_ENGINEER.isSameRole((new RoleBuilder()
+                .withName(MOBILE_ENGINEER.getName().toString())).build()));
+
+        //same name with brackets -> return true
+        assertTrue((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString() + "(Backend)").build())
+                .isSameRole((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString()
+                        + "(Backend)")).build()));
+
+        //same name with brackets with uneven whitespaces -> return true
+        assertTrue((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString() + "  (Backend  )").build())
+                .isSameRole((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString()
+                        + " (  Backend)")).build()));
+
+        //different name with brackets -> return false
+        assertFalse((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString() + "(frontend)").build())
+                .isSameRole((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString()
+                        + "(Backend)")).build()));
+
+        //different name with brackets -> return false
+        assertFalse((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString() + "( )").build())
+                .isSameRole((new RoleBuilder().withName(MOBILE_ENGINEER.getName().toString()
+                        + "(Backend)")).build()));
+    }
+
+    @Test
     public void equals() {
         //same object -> returns true
         assertTrue(ML_ENGINEER.equals(ML_ENGINEER));

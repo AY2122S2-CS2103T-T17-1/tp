@@ -60,9 +60,13 @@ public class Role {
             return true;
         }
 
-        return otherRole != null
-                && otherRole.getName().equals(getName())
-                && otherRole.getDescription().equals(getDescription());
+        // instanceof handles nulls
+        if (!(otherRole instanceof Role)) {
+            return false;
+        }
+
+        return otherRole.getName().toString().replaceAll("\\s+", "")
+                .equals(getName().toString().replaceAll("\\s+", ""));
     }
 
     /**
