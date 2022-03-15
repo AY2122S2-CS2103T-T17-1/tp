@@ -3,9 +3,9 @@ package seedu.tinner.logic.parser;
 import static seedu.tinner.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_COMPANY_NAME;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_ROLE_NAME;
+import static seedu.tinner.logic.parser.ParserUtil.arePrefixesPresent;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 import seedu.tinner.logic.commands.FindCommand;
 import seedu.tinner.logic.parser.exceptions.ParseException;
@@ -59,11 +59,4 @@ public class FindCommandParser implements Parser<FindCommand> {
                 new RoleNameContainsKeywordsPredicate(Arrays.asList(roleNameKeywords)));
     }
 
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
 }

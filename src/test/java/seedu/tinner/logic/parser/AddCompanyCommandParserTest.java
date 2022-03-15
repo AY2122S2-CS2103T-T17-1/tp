@@ -5,7 +5,6 @@ import static seedu.tinner.logic.commands.CommandTestUtil.ADDRESS_DESC_INSTAGRAM
 import static seedu.tinner.logic.commands.CommandTestUtil.ADDRESS_DESC_WHATSAPP;
 import static seedu.tinner.logic.commands.CommandTestUtil.EMAIL_DESC_INSTAGRAM;
 import static seedu.tinner.logic.commands.CommandTestUtil.EMAIL_DESC_WHATSAPP;
-import static seedu.tinner.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.tinner.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.tinner.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.tinner.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
@@ -134,7 +133,7 @@ public class AddCompanyCommandParserTest {
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_WHATSAPP
-                        + EMAIL_DESC_WHATSAPP + INVALID_ADDRESS_DESC,
+                        + EMAIL_DESC_WHATSAPP,
                 CompanyName.MESSAGE_CONSTRAINTS);
 
         // non-empty preamble

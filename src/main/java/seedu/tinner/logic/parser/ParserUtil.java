@@ -2,6 +2,8 @@ package seedu.tinner.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.stream.Stream;
+
 import javafx.util.Pair;
 import seedu.tinner.commons.core.index.Index;
 import seedu.tinner.commons.util.StringUtil;
@@ -227,5 +229,22 @@ public class ParserUtil {
             throw new ParseException(Stipend.MESSAGE_CONSTRAINTS);
         }
         return new Stipend(trimmedStipend);
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+    /**
+     * Returns true if prefix is found and the corresponding prefix contains empty values in the given
+     * {@code ArgumentMultimap}.
+     */
+    public static boolean hasPrefixWithoutValue(ArgumentMultimap argumentMultimap, Prefix prefix) {
+        return (arePrefixesPresent(argumentMultimap, prefix)
+                && argumentMultimap.getOptionalValue(prefix).get().isEmpty());
     }
 }

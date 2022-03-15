@@ -1,12 +1,11 @@
 package seedu.tinner.logic.parser;
 
 import static seedu.tinner.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.tinner.commons.core.Messages.MESSAGE_NO_VALUE_AFTER_PREFIX;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_PHONE;
-
-import java.util.stream.Stream;
 
 import seedu.tinner.logic.commands.AddCompanyCommand;
 import seedu.tinner.logic.parser.exceptions.ParseException;
@@ -33,9 +32,17 @@ public class AddCompanyCommandParser implements Parser<AddCompanyCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
                         PREFIX_ADDRESS);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddCompanyCommand.MESSAGE_USAGE));
+        }
+
+        if (ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_NAME)
+                || ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_PHONE)
+                || ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_EMAIL)
+                || ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_ADDRESS)) {
+            throw new ParseException(String.format(MESSAGE_NO_VALUE_AFTER_PREFIX,
                     AddCompanyCommand.MESSAGE_USAGE));
         }
 
@@ -43,19 +50,11 @@ public class AddCompanyCommandParser implements Parser<AddCompanyCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getOptionalValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getOptionalValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getOptionalValue(PREFIX_ADDRESS).get());
-        RoleList roles = new RoleList(); // Dummy placeholder, will update in v1.2b
+        RoleList roles = new RoleList();
 
         Company company = new Company(name, phone, email, address, roles);
 
         return new AddCompanyCommand(company);
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
 }

@@ -1,13 +1,13 @@
 package seedu.tinner.logic.parser;
 
 import static seedu.tinner.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.tinner.commons.core.Messages.MESSAGE_NO_VALUE_AFTER_PREFIX;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_DEADLINE;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_STIPEND;
-
-import java.util.stream.Stream;
+import static seedu.tinner.logic.parser.ParserUtil.arePrefixesPresent;
 
 import javafx.util.Pair;
 import seedu.tinner.commons.core.index.Index;
@@ -48,6 +48,16 @@ public class AddRoleCommandParser implements Parser<AddRoleCommand> {
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddRoleCommand.MESSAGE_USAGE));
         }
+
+        if (ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_NAME)
+                || ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_STATUS)
+                || ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_DEADLINE)
+                || ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_DESCRIPTION)
+                || ParserUtil.hasPrefixWithoutValue(argMultimap, PREFIX_STIPEND)) {
+            throw new ParseException(String.format(MESSAGE_NO_VALUE_AFTER_PREFIX,
+                    AddRoleCommand.MESSAGE_USAGE));
+        }
+
         RoleName name = ParserUtil.parseRoleName(argMultimap.getValue(PREFIX_NAME).get());
         Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).get());
         Deadline deadline = ParserUtil.parseDeadline(argMultimap.getValue(PREFIX_DEADLINE).get());
@@ -55,14 +65,6 @@ public class AddRoleCommandParser implements Parser<AddRoleCommand> {
         Stipend stipend = ParserUtil.parseStipend(argMultimap.getOptionalValue(PREFIX_STIPEND).get());
         Role role = new Role(name, status, deadline, description, stipend);
         return new AddRoleCommand(index, role);
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
 }
