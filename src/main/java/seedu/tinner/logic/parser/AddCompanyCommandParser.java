@@ -57,4 +57,5 @@ public class AddCompanyCommandParser implements Parser<AddCompanyCommand> {
 
         return new AddCompanyCommand(company);
     }
+
 }
