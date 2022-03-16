@@ -14,6 +14,7 @@ public class Company {
     private final CompanyName companyName;
     private final Phone phone;
     private final Email email;
+    private final FavouriteStatus favouriteStatus;
 
     // Data fields
     private final Address address;
@@ -22,13 +23,15 @@ public class Company {
     /**
      * Name is compulsory but Phone, Email and Address are optional
      */
-    public Company(CompanyName companyName, Phone phone, Email email, Address address, ReadOnlyRoleList roles) {
+    public Company(CompanyName companyName, Phone phone, Email email, Address address, ReadOnlyRoleList roles,
+                   FavouriteStatus favouriteStatus) {
         requireAllNonNull(companyName, phone, email, address);
         this.companyName = companyName;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.roleManager.setRoleList(roles);
+        this.favouriteStatus = favouriteStatus;
     }
 
     public CompanyName getName() {
@@ -47,6 +50,9 @@ public class Company {
         return address;
     }
 
+    public FavouriteStatus getFavouriteStatus() {
+        return favouriteStatus;
+    }
 
     public RoleManager getRoleManager() {
         return roleManager;
@@ -83,13 +89,14 @@ public class Company {
         return otherCompany.getName().equals(getName())
                 && otherCompany.getPhone().equals(getPhone())
                 && otherCompany.getEmail().equals(getEmail())
-                && otherCompany.getAddress().equals(getAddress());
+                && otherCompany.getAddress().equals(getAddress())
+                && otherCompany.getFavouriteStatus().equals(getFavouriteStatus());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(companyName, phone, email, address);
+        return Objects.hash(companyName, phone, email, address, favouriteStatus);
     }
 
     @Override
@@ -101,7 +108,9 @@ public class Company {
                 .append("; Email: ")
                 .append(getEmail())
                 .append("; Address: ")
-                .append(getAddress());
+                .append(getAddress())
+                .append("; Favourite: ")
+                .append(getFavouriteStatus());
 
         return builder.toString();
     }

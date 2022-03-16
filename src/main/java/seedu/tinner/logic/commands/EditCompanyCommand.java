@@ -20,6 +20,7 @@ import seedu.tinner.model.company.Address;
 import seedu.tinner.model.company.Company;
 import seedu.tinner.model.company.CompanyName;
 import seedu.tinner.model.company.Email;
+import seedu.tinner.model.company.FavouriteStatus;
 import seedu.tinner.model.company.Phone;
 import seedu.tinner.model.company.ReadOnlyRoleList;
 
@@ -98,8 +99,9 @@ public class EditCompanyCommand extends Command {
         Address updatedAddress =
                 editCompanyDescriptor.getAddress().orElse(companyToEdit.getAddress());
         ReadOnlyRoleList roles = companyToEdit.getRoleManager().getRoleList();
+        FavouriteStatus favouriteStatus = companyToEdit.getFavouriteStatus();
 
-        return new Company(updatedName, updatedPhone, updatedEmail, updatedAddress, roles);
+        return new Company(updatedName, updatedPhone, updatedEmail, updatedAddress, roles, favouriteStatus);
     }
 
     @Override

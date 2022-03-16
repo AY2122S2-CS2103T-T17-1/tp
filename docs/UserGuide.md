@@ -11,11 +11,14 @@ Tinner (Anagram of Intern) is a desktop app for managing internship applications
 * [Features](#features)
 * [Viewing help: `help`](#c-help)
 * [Viewing all companies and roles: `list`](#c-list)
+* [Viewing all favourited companies: `listFavourite`](#c-listfavourite)
 * [Adding a company: `addCompany`](#c-add-c)
 * [Adding a role: `addRole`](#c-add-c-r)
 * [Deleting a company: `deleteCompany`](#c-delete-c)
 * [Deleting a role: `deleteRole`](#c-delete-c-r)
 * [Finding a specific company or role: `find`](#c-find-c-r)
+* [Favouriting a specific company: `favourite`](#c-favourite-c)  
+* [Unfavouriting a specific company: `unfavourite`](#c-unfavourite-c)
 * [Command summary](#command-summary)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -81,6 +84,12 @@ Format: `help`
 Shows a list of all companies and internship roles in Tinner.
 
 Format: `list`
+
+### Listing all favourited companies : `listFavourite` <a id="c-listfavourite"></a>
+
+Shows a list of all favourited companies and internship roles within these companies in Tinner.
+
+Format: `listFavourite`
 
 ### Adding a company: `addCompany` <a id="c-add-c"></a>
 
@@ -161,6 +170,36 @@ Examples:
 
 * `find c/meta amazon r/engineer` 
 
+### Favouriting a specific company: `favourite` <a id="c-favourite-c"></a>
+
+Favourite a specific company from the list of companies
+
+Format: `favourite COMPANY_INDEX`
+
+* Favourites the company at the specified `COMPANY_INDEX`.
+* The index refer to the index number shown in the displayed company list.
+* The indexes must be a positive integer like 1, 2, 3, …
+
+Examples:
+
+* `list` followed by, `favourite 1` favourites the 1<sup>st</sup>
+  company in Tinner.
+
+### Unfavouriting a specific company: `unfavourite` <a id="c-unfavourite-c"></a>
+
+Unfavourite a specific company from the list of companies
+
+Format: `unfavourite COMPANY_INDEX`
+
+* Unfavourites the company at the specified `COMPANY_INDEX`.
+* The index refer to the index number shown in the displayed company list.
+* The indexes must be a positive integer like 1, 2, 3, …
+
+Examples:
+
+* `list` followed by, `unfavourite 1` unfavourites the 1<sup>st</sup>
+  company in Tinner.
+  
 ### Exiting the program : `exit` <a id="c-exit"></a>
 
 Exits the program.
@@ -182,10 +221,13 @@ _Details coming soon ..._
 Action | Format, Examples
 --------|------------------
 **List companies** | `list`
+**List favourited companies** | `listFavourite`
 **Add company** | `addCompany n/COMPANY_NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS]` <br><br> e.g.,`addCompany n/Google p/98765432 e/hr_google@gmail.com a/70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371`
 **Add role** | `addRole COMPANY_INDEX n/ROLE_NAME s/STATUS b/DEADLINE [d/DESCRIPTION] [$/STIPEND]` <br><br> e.g.,` addRole 1 n/Data Analyst s/applying b/31-03-2022 23:59 d/Analyse marketing data $/5000`
 **Delete company** | `deleteCompany COMPANY_INDEX `<br><br> e.g.,`deleteCompany 3 `
 **Delete role** | `deleteRole COMPANY_INDEX ROLE_INDEX` <br><br> e.g.,`deleteRole 3 1 `
 **Find company or role** | `find c/COMPANY_KEYWORD [MORE_COMPANY_KEYWORDS] r/ROLE_KEYWORD [MORE_ROLE_KEYWORDS]` <br><br> e.g., `find c/google r/mobile software`
+**Favourite company** | `favourite COMPANY_INDEX`
+**Unfavourite company** | `unfavourite COMPANY_INDEX`
 **Help** | `help`
 **Exit Tinner** | `exit`

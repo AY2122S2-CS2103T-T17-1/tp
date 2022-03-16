@@ -12,6 +12,7 @@ import seedu.tinner.model.company.Address;
 import seedu.tinner.model.company.Company;
 import seedu.tinner.model.company.CompanyName;
 import seedu.tinner.model.company.Email;
+import seedu.tinner.model.company.FavouriteStatus;
 import seedu.tinner.model.company.Phone;
 import seedu.tinner.model.company.RoleList;
 
@@ -107,7 +108,8 @@ class JsonAdaptedCompany {
 
         final RoleList modelRoles = new RoleList(companyRoles);
 
-        return new Company(modelName, modelPhone, modelEmail, modelAddress, modelRoles);
+        return new Company(modelName, modelPhone, modelEmail, modelAddress, modelRoles,
+                new FavouriteStatus(false));
     }
 
 }

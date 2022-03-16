@@ -13,8 +13,10 @@ import seedu.tinner.model.company.Address;
 import seedu.tinner.model.company.Company;
 import seedu.tinner.model.company.CompanyName;
 import seedu.tinner.model.company.Email;
+import seedu.tinner.model.company.FavouriteStatus;
 import seedu.tinner.model.company.Phone;
 import seedu.tinner.model.company.RoleList;
+
 
 /**
  * Parses input arguments and creates a new AddCompanyCommand object
@@ -53,7 +55,7 @@ public class AddCompanyCommandParser implements Parser<AddCompanyCommand> {
 
         RoleList roles = new RoleList();
 
-        Company company = new Company(name, phone, email, address, roles);
+        Company company = new Company(name, phone, email, address, roles, new FavouriteStatus(false));
 
         return new AddCompanyCommand(company);
     }

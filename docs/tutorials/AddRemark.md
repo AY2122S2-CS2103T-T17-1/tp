@@ -346,7 +346,7 @@ save it with `Model#setCompany()`.
         Company companyToEdit = lastShownList.get(index.getZeroBased());
         Company editedCompany = new Company(
                 companyToEdit.getName(), companyToEdit.getPhone(), companyToEdit.getEmail(),
-                companyToEdit.getAddress(), remark, companyToEdit.getTags());
+                companyToEdit.getAddress(), companyToEdit.getRoles(), companyToEdit.getFavouriteStatus());
 
         model.setCompany(companyToEdit, editedCompany);
         model.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);

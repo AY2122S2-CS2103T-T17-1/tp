@@ -15,9 +15,12 @@ import seedu.tinner.logic.commands.DeleteRoleCommand;
 import seedu.tinner.logic.commands.EditCompanyCommand;
 import seedu.tinner.logic.commands.EditRoleCommand;
 import seedu.tinner.logic.commands.ExitCommand;
+import seedu.tinner.logic.commands.FavouriteCompanyCommand;
 import seedu.tinner.logic.commands.FindCommand;
 import seedu.tinner.logic.commands.HelpCommand;
 import seedu.tinner.logic.commands.ListCommand;
+import seedu.tinner.logic.commands.ListFavouriteCommand;
+import seedu.tinner.logic.commands.UnfavouriteCompanyCommand;
 import seedu.tinner.logic.parser.exceptions.ParseException;
 
 /**
@@ -65,6 +68,9 @@ public class CompanyListParser {
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
 
+        case ListFavouriteCommand.COMMAND_WORD:
+            return new ListFavouriteCommand();
+
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
 
@@ -79,6 +85,12 @@ public class CompanyListParser {
 
         case EditRoleCommand.COMMAND_WORD:
             return new EditRoleCommandParser().parse(arguments);
+
+        case FavouriteCompanyCommand.COMMAND_WORD:
+            return new FavouriteCompanyCommandParser().parse(arguments);
+
+        case UnfavouriteCompanyCommand.COMMAND_WORD:
+            return new UnfavouriteCompanyCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

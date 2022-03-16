@@ -19,6 +19,11 @@ public class RoleManager {
      */
     public static final Predicate<Role> PREDICATE_SHOW_ALL_ROLES = unused -> true;
 
+    /**
+     * {@code Predicate} that always evaluate to false
+     */
+    public static final Predicate<Role> PREDICATE_SHOW_NO_ROLES = unused -> false;
+
     private final RoleList roleList;
     private final FilteredList<Role> filteredRoles;
 

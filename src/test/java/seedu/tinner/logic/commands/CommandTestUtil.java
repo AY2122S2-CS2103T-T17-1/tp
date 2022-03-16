@@ -2,6 +2,7 @@ package seedu.tinner.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.tinner.logic.commands.FavouriteCompanyCommand.createFavouritedCompany;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_DEADLINE;
 import static seedu.tinner.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -151,6 +152,18 @@ public class CommandTestUtil {
                         Arrays.asList(splitName)), PREDICATE_SHOW_ALL_ROLES);
 
         assertEquals(1, model.getFilteredCompanyList().size());
+    }
+
+    /**
+     * Updates {@code model}'s list to favourite the company at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void favouriteCompanyAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredCompanyList().size());
+        Company companyToFavourite = model.getFilteredCompanyList().get(targetIndex.getZeroBased());
+        Company favouritedCompany = createFavouritedCompany(companyToFavourite);
+        assertTrue(favouritedCompany.getFavouriteStatus().isFavourited);
+        model.setCompany(companyToFavourite, favouritedCompany);
     }
 
 }

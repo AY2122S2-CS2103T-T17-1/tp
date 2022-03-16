@@ -6,6 +6,7 @@ import seedu.tinner.model.company.Address;
 import seedu.tinner.model.company.Company;
 import seedu.tinner.model.company.CompanyName;
 import seedu.tinner.model.company.Email;
+import seedu.tinner.model.company.FavouriteStatus;
 import seedu.tinner.model.company.Phone;
 import seedu.tinner.model.company.ReadOnlyRoleList;
 import seedu.tinner.model.company.RoleList;
@@ -25,6 +26,7 @@ public class CompanyBuilder {
     private Phone phone;
     private Email email;
     private Address address;
+    private FavouriteStatus favouriteStatus;
     private ReadOnlyRoleList roles;
 
     /**
@@ -35,6 +37,7 @@ public class CompanyBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
+        favouriteStatus = new FavouriteStatus(false);
         roles = new RoleList();
     }
 
@@ -47,6 +50,7 @@ public class CompanyBuilder {
         email = companyToCopy.getEmail();
         address = companyToCopy.getAddress();
         roles = companyToCopy.getRoleManager().getRoleList();
+        favouriteStatus = companyToCopy.getFavouriteStatus();
     }
 
     /**
@@ -115,8 +119,26 @@ public class CompanyBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code isFavourited} field of {@code FavouriteStatus} in the {@code Company}
+     * that we are building to true.
+     */
+    public CompanyBuilder setToFavourite() {
+        this.favouriteStatus = new FavouriteStatus(true);
+        return this;
+    }
+
+    /**
+     * Sets the {@code isFavourited} field of {@code FavouriteStatus} in the {@code Company}
+     * that we are building to false.
+     */
+    public CompanyBuilder setToUnfavourite() {
+        this.favouriteStatus = new FavouriteStatus(false);
+        return this;
+    }
+
     public Company build() {
-        return new Company(name, phone, email, address, roles);
+        return new Company(name, phone, email, address, roles, favouriteStatus);
     }
 
 }

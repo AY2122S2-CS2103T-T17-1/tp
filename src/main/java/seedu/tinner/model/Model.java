@@ -18,6 +18,11 @@ public interface Model {
     Predicate<Company> PREDICATE_SHOW_ALL_COMPANIES = unused -> true;
 
     /**
+     * {@code Predicate} that always evaluate to false, for filtering companies.
+     */
+    Predicate<Company> PREDICATE_SHOW_NO_COMPANIES = unused -> false;
+
+    /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */
     void setUserPrefs(ReadOnlyUserPrefs userPrefs);
