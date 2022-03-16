@@ -28,7 +28,7 @@ public class AddRoleCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a role to the company listed. "
             + "Parameters: "
             + "companyIndex "
-            + PREFIX_NAME + "ROLE_NAME (TYPE)"
+            + PREFIX_NAME + "ROLE_NAME "
             + PREFIX_STATUS + "STATUS "
             + PREFIX_DEADLINE + "DEADLINE "
             + PREFIX_DESCRIPTION + "DESCRIPTION "
