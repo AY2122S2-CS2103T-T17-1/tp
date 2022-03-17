@@ -4,6 +4,8 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -17,6 +19,8 @@ import seedu.tinner.model.role.Role;
 public class CompanyCard extends UiPart<Region> {
 
     private static final String FXML = "CompanyCard.fxml";
+    private static final int STAR_ICON_DIMENSIONS = 15;
+    private static final Image STAR_ICON = new Image("/images/star.png", true);
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -43,6 +47,8 @@ public class CompanyCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private ImageView frame;
+    @FXML
     private FlowPane roleTags;
     @FXML
     private StackPane roleListPanelPlaceholder;
@@ -59,14 +65,17 @@ public class CompanyCard extends UiPart<Region> {
         String phoneField = company.getPhone().value;
         String addressField = company.getAddress().value;
         String emailField = company.getEmail().value;
+        boolean isFavourited = company.getFavouriteStatus().value;
 
         phone.setText(phoneField);
         address.setText(addressField);
         email.setText(emailField);
+        setStarIcon();
 
         phone.setManaged(!phoneField.isEmpty());
         address.setManaged(!addressField.isEmpty());
         email.setManaged(!emailField.isEmpty());
+        frame.setVisible(isFavourited);
 
         ObservableList<Role> roleList = company.getRoleManager().getFilteredRoleList();
 
@@ -92,6 +101,15 @@ public class CompanyCard extends UiPart<Region> {
     public void setRoleTags(ObservableList<Role> roleList) {
         roleTags.getChildren().clear();
         roleList.forEach(roleTag -> roleTags.getChildren().add(new Label(roleTag.getName().fullName)));
+    }
+
+    /**
+     * Initialises the star icon for an instance of a company card
+     */
+    public void setStarIcon() {
+        frame.setImage(STAR_ICON);
+        frame.setFitHeight(STAR_ICON_DIMENSIONS);
+        frame.setFitWidth(STAR_ICON_DIMENSIONS);
     }
 
     /**
