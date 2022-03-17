@@ -64,15 +64,9 @@ public class CompanyCard extends UiPart<Region> {
         address.setText(addressField);
         email.setText(emailField);
 
-        if (phoneField == "") {
-            phone.setManaged(false);
-        }
-        if (addressField == "") {
-            address.setManaged(false);
-        }
-        if (emailField == "") {
-            email.setManaged(false);
-        }
+        phone.setManaged(!phoneField.isEmpty());
+        address.setManaged(!addressField.isEmpty());
+        email.setManaged(!emailField.isEmpty());
 
         ObservableList<Role> roleList = company.getRoleManager().getFilteredRoleList();
 
