@@ -52,7 +52,7 @@ public class FavouriteCompanyCommand extends Command {
 
         Company companyToFavourite = lastShownList.get(targetIndex.getZeroBased());
 
-        if (companyToFavourite.getFavouriteStatus().isFavourited) {
+        if (companyToFavourite.getFavouriteStatus().value) {
             throw new CommandException(MESSAGE_ALREADY_FAVOURITED_COMPANY);
         }
 

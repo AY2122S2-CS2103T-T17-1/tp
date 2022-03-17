@@ -13,7 +13,7 @@ public class CompanyHasBeenFavouritedPredicate implements Predicate<Company> {
 
     @Override
     public boolean test(Company company) {
-        return company.getFavouriteStatus().isFavourited;
+        return company.getFavouriteStatus().value;
     }
 
     @Override

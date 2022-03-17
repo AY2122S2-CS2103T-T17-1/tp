@@ -149,7 +149,7 @@ public class CommandTestUtil {
         Company company = model.getFilteredCompanyList().get(targetIndex.getZeroBased());
         final String[] splitName = company.getName().fullName.split("\\s+");
         model.updateFilteredCompanyList(new CompanyNameContainsKeywordsPredicate(new ArrayList<>(),
-                        Arrays.asList(splitName)), PREDICATE_SHOW_ALL_ROLES);
+                Arrays.asList(splitName)), PREDICATE_SHOW_ALL_ROLES);
 
         assertEquals(1, model.getFilteredCompanyList().size());
     }
@@ -162,7 +162,7 @@ public class CommandTestUtil {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredCompanyList().size());
         Company companyToFavourite = model.getFilteredCompanyList().get(targetIndex.getZeroBased());
         Company favouritedCompany = createFavouritedCompany(companyToFavourite);
-        assertTrue(favouritedCompany.getFavouriteStatus().isFavourited);
+        assertTrue(favouritedCompany.getFavouriteStatus().value);
         model.setCompany(companyToFavourite, favouritedCompany);
     }
 

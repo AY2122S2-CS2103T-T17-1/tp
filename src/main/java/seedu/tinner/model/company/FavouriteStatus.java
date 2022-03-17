@@ -10,7 +10,7 @@ public class FavouriteStatus {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Favourite should only contain numbers, and it should be at least 3 digits long";
-    public final Boolean isFavourited;
+    public final Boolean value;
 
     /**
      * Constructs a {@code FavouriteStatus}.
@@ -19,24 +19,24 @@ public class FavouriteStatus {
      */
     public FavouriteStatus(Boolean isFavourited) {
         requireNonNull(isFavourited);
-        this.isFavourited = isFavourited;
+        this.value = isFavourited;
     }
 
     @Override
     public String toString() {
-        return isFavourited.toString();
+        return value.toString();
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof FavouriteStatus // instanceof handles nulls
-                && (isFavourited == ((FavouriteStatus) other).isFavourited)); // state check
+                && (value == ((FavouriteStatus) other).value)); // state check
     }
 
     @Override
     public int hashCode() {
-        return isFavourited.hashCode();
+        return value.hashCode();
     }
 
 }
