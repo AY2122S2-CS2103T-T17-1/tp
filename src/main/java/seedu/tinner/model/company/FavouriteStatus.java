@@ -8,8 +8,8 @@ import static java.util.Objects.requireNonNull;
  */
 public class FavouriteStatus {
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "Favourite should only contain numbers, and it should be at least 3 digits long";
+    public static final String MESSAGE_CONSTRAINTS = "Favourite status should only contain boolean values.";
+
     public final Boolean value;
 
     /**
@@ -25,6 +25,13 @@ public class FavouriteStatus {
     @Override
     public String toString() {
         return value.toString();
+    }
+
+    /**
+     * Returns true if a given string is a valid favourite status.
+     */
+    public static boolean isValidFavouriteStatus(String test) {
+        return test.equals("true") || test.equals("false");
     }
 
     @Override

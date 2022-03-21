@@ -27,6 +27,7 @@ class JsonAdaptedCompany {
     private final String phone;
     private final String email;
     private final String address;
+    private final String favouriteStatus;
     private final List<JsonAdaptedRole> roles = new ArrayList<>();
 
     /**
@@ -35,11 +36,13 @@ class JsonAdaptedCompany {
     @JsonCreator
     public JsonAdaptedCompany(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                               @JsonProperty("email") String email, @JsonProperty("address") String address,
+                              @JsonProperty("favouriteStatus") String favouriteStatus,
                               @JsonProperty("roles") List<JsonAdaptedRole> roles) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.favouriteStatus = favouriteStatus;
         if (roles != null) {
             this.roles.addAll(roles);
         }
@@ -53,6 +56,7 @@ class JsonAdaptedCompany {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
+        favouriteStatus = source.getFavouriteStatus().value.toString();
         roles.addAll(source.getRoleManager().getRoleList()
                 .getRoles().stream()
                 .map(JsonAdaptedRole::new)
@@ -106,10 +110,19 @@ class JsonAdaptedCompany {
         }
         final Address modelAddress = new Address(address);
 
+        if (favouriteStatus == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    FavouriteStatus.class.getSimpleName()));
+        }
+        if (!FavouriteStatus.isValidFavouriteStatus(favouriteStatus)) {
+            throw new IllegalValueException(FavouriteStatus.MESSAGE_CONSTRAINTS);
+        }
+        final FavouriteStatus modelFavouriteStatus = new FavouriteStatus(Boolean.parseBoolean(favouriteStatus));
+
         final RoleList modelRoles = new RoleList(companyRoles);
 
         return new Company(modelName, modelPhone, modelEmail, modelAddress, modelRoles,
-                new FavouriteStatus(false));
+                modelFavouriteStatus);
     }
 
 }
