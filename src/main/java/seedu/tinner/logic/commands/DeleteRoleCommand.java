@@ -10,9 +10,7 @@ import seedu.tinner.commons.core.index.Index;
 import seedu.tinner.logic.commands.exceptions.CommandException;
 import seedu.tinner.model.Model;
 import seedu.tinner.model.company.Company;
-import seedu.tinner.model.company.RoleManager;
 import seedu.tinner.model.role.Role;
-
 
 public class DeleteRoleCommand extends Command {
 
@@ -48,16 +46,15 @@ public class DeleteRoleCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
         }
 
-        Company company = lastShownCompanyList.get(companyIndex.getZeroBased());
-        RoleManager roleManager = company.getRoleManager();
-        List<Role> lastShownRoleList = roleManager.getFilteredRoleList();
+        List<Role> lastShownRoleList = model.getFilteredRoleList(companyIndex);
 
         if (roleIndex.getZeroBased() >= lastShownRoleList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ROLE_DISPLAYED_INDEX);
         }
 
         Role roleToDelete = lastShownRoleList.get(roleIndex.getZeroBased());
-        roleManager.deleteRole(roleToDelete);
+        model.deleteRole(companyIndex, roleToDelete);
+
         return new CommandResult(String.format(MESSAGE_DELETE_ROLE_SUCCESS, roleToDelete));
     }
 

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import seedu.tinner.commons.core.GuiSettings;
+import seedu.tinner.commons.core.index.Index;
 import seedu.tinner.logic.commands.exceptions.CommandException;
 import seedu.tinner.model.CompanyList;
 import seedu.tinner.model.Model;
@@ -148,6 +149,36 @@ public class AddRoleCommandTest {
 
         @Override
         public void updateFilteredCompanyList(Predicate<Company> companyPredicate, Predicate<Role> rolePredicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addRole(Index companyIndex, Role role) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasRole(Index companyIndex, Role role) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Role> getFilteredRoleList(Index companyIndex) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteRole(Index companyIndex, Role role) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setRole(Index companyIndex, Role target, Role editedRole) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredRoleList(Index companyIndex, Predicate<Role> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }

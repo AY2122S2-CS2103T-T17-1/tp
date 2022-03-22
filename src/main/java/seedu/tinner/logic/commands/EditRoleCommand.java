@@ -19,7 +19,6 @@ import seedu.tinner.commons.util.CollectionUtil;
 import seedu.tinner.logic.commands.exceptions.CommandException;
 import seedu.tinner.model.Model;
 import seedu.tinner.model.company.Company;
-import seedu.tinner.model.company.RoleManager;
 import seedu.tinner.model.role.Deadline;
 import seedu.tinner.model.role.Description;
 import seedu.tinner.model.role.Role;
@@ -80,9 +79,7 @@ public class EditRoleCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
         }
 
-        Company companyTarget = lastShownCompanyList.get(companyIndex.getZeroBased());
-        RoleManager roleManager = companyTarget.getRoleManager();
-        List<Role> lastShownRoleList = roleManager.getFilteredRoleList();
+        List<Role> lastShownRoleList = model.getFilteredRoleList(companyIndex);
 
         if (roleIndex.getZeroBased() >= lastShownRoleList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ROLE_DISPLAYED_INDEX);
@@ -91,12 +88,12 @@ public class EditRoleCommand extends Command {
         Role roleToEdit = lastShownRoleList.get(roleIndex.getZeroBased());
         Role editedRole = createEditedRole(roleToEdit, editRoleDescriptor);
 
-        if (!roleToEdit.isSameRole(editedRole) && roleManager.hasRole(editedRole)) {
+        if (!roleToEdit.isSameRole(editedRole) && model.hasRole(companyIndex, editedRole)) {
             throw new CommandException(MESSAGE_DUPLICATE_ROLE);
         }
 
-        roleManager.setRole(roleToEdit, editedRole);
-        roleManager.updateFilteredRoleList(PREDICATE_SHOW_ALL_ROLES);
+        model.setRole(companyIndex, roleToEdit, editedRole);
+        model.updateFilteredRoleList(companyIndex, PREDICATE_SHOW_ALL_ROLES);
 
         return new CommandResult(String.format(MESSAGE_EDIT_ROLE_SUCCESS, editedRole));
     }

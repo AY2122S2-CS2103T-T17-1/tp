@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.tinner.commons.core.GuiSettings;
+import seedu.tinner.commons.core.index.Index;
 import seedu.tinner.model.company.Company;
 import seedu.tinner.model.role.Role;
 
@@ -98,4 +99,39 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredCompanyList(Predicate<Company> predicate, Predicate<Role> rolePredicate);
+
+    /**
+     * Adds the given role.
+     * {@code role} must not already exist in the Company.
+     */
+    void addRole (Index companyIndex, Role role);
+
+    /**
+     * Returns true if a role with the same identity as {@code role} exists in the role list.
+     */
+    boolean hasRole (Index companyIndex, Role role);
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Role}.
+     */
+    ObservableList<Role> getFilteredRoleList(Index companyIndex);
+
+    /**
+     * Deletes the given role.
+     * The role must exist in the company.
+     */
+    void deleteRole(Index companyIndex, Role role);
+
+    /**
+     * Replaces the given role {@code role} with {@code editedROle}.
+     * {@code target} must exist in the role list.
+     * The role identity of {@code editedRole} must not be the same as another existing role in the
+     * role list.
+     */
+    void setRole(Index companyIndex, Role target, Role editedRole);
+
+    /**
+     * Updates the filter of the filtered role list to filter by the given {@code predicate}.
+     */
+    void updateFilteredRoleList(Index companyIndex, Predicate<Role> predicate);
 }

@@ -223,7 +223,4 @@ public class EditRoleCommandParserTest {
         expectedCommand = new EditRoleCommand(companyIndex, roleIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
-
-
-
 }

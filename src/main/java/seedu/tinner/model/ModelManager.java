@@ -12,7 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.tinner.commons.core.GuiSettings;
 import seedu.tinner.commons.core.LogsCenter;
+import seedu.tinner.commons.core.index.Index;
 import seedu.tinner.model.company.Company;
+import seedu.tinner.model.company.RoleManager;
 import seedu.tinner.model.role.Role;
 
 /**
@@ -151,5 +153,75 @@ public class ModelManager implements Model {
                 && userPrefs.equals(other.userPrefs)
                 && filteredCompanies.equals(other.filteredCompanies);
     }
+
+    //=========== RoleManager ================================================================================
+    @Override
+    public void addRole (Index companyIndex, Role role) {
+        assert(companyIndex.getZeroBased() < filteredCompanies.size());
+        requireNonNull(role);
+
+        Company company = this.filteredCompanies.get(companyIndex.getZeroBased());
+        RoleManager roleManager = company.getRoleManager();
+        roleManager.addRole(role);
+    }
+
+    @Override
+    public boolean hasRole (Index companyIndex, Role role) {
+        assert(companyIndex.getZeroBased() < filteredCompanies.size());
+        requireNonNull(role);
+
+        Company company = this.filteredCompanies.get(companyIndex.getZeroBased());
+        RoleManager roleManager = company.getRoleManager();
+        return roleManager.hasRole(role);
+    }
+
+    @Override
+    public void deleteRole(Index companyIndex, Role roleToDelete) {
+        assert(companyIndex.getZeroBased() < filteredCompanies.size());
+        requireNonNull(roleToDelete);
+
+        Company company = this.filteredCompanies.get(companyIndex.getZeroBased());
+        RoleManager roleManager = company.getRoleManager();
+        roleManager.deleteRole(roleToDelete);
+    }
+
+    @Override
+    public void setRole(Index companyIndex, Role target, Role editedRole) {
+        assert(companyIndex.getZeroBased() < filteredCompanies.size());
+        requireAllNonNull(target, editedRole);
+
+        Company company = this.filteredCompanies.get(companyIndex.getZeroBased());
+        RoleManager roleManager = company.getRoleManager();
+        roleManager.setRole(target, editedRole);
+    }
+
+    @Override
+    public void updateFilteredRoleList(Index companyIndex, Predicate<Role> predicate) {
+        assert(companyIndex.getZeroBased() < filteredCompanies.size());
+
+        Company company = this.filteredCompanies.get(companyIndex.getZeroBased());
+        RoleManager roleManager = company.getRoleManager();
+        roleManager.updateFilteredRoleList(predicate);
+    }
+
+    //=========== Filtered Company List Accessors =============================================================
+    @Override
+    public ObservableList<Role> getFilteredRoleList(Index companyIndex) {
+        assert(companyIndex.getZeroBased() < filteredCompanies.size());
+
+        Company company = this.filteredCompanies.get(companyIndex.getZeroBased());
+        RoleManager roleManager = company.getRoleManager();
+        return roleManager.getFilteredRoleList();
+    }
+
+
+
+
+
+
+
+
+
+
 
 }

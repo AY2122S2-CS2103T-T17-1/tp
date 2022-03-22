@@ -10,6 +10,8 @@ import static seedu.tinner.testutil.TypicalIndexes.INDEX_FIRST_ROLE;
 import static seedu.tinner.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
 import static seedu.tinner.testutil.TypicalIndexes.INDEX_SECOND_ROLE;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.tinner.commons.core.Messages;
@@ -17,7 +19,6 @@ import seedu.tinner.commons.core.index.Index;
 import seedu.tinner.model.Model;
 import seedu.tinner.model.ModelManager;
 import seedu.tinner.model.UserPrefs;
-import seedu.tinner.model.company.Company;
 import seedu.tinner.model.role.Role;
 
 /**
@@ -29,8 +30,8 @@ public class DeleteRoleCommandTest {
 
     @Test
     public void execute_validIndexList_success() {
-        Company company = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
-        Role roleToDelete = company.getRoleManager().getFilteredRoleList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        List<Role> lastShownRoleList = model.getFilteredRoleList(INDEX_FIRST_COMPANY);
+        Role roleToDelete = lastShownRoleList.get(INDEX_FIRST_ROLE.getZeroBased());
         DeleteRoleCommand deleteRoleCommand = new DeleteRoleCommand(INDEX_FIRST_COMPANY, INDEX_FIRST_ROLE);
 
         String expectedMessage = String.format(DeleteRoleCommand.MESSAGE_DELETE_ROLE_SUCCESS, roleToDelete);
@@ -46,8 +47,7 @@ public class DeleteRoleCommandTest {
         assertCommandFailure(deleteRoleCommand1, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
 
         // test invalid role index
-        Company company = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
-        Index outOfRoleBoundIndex = Index.fromOneBased(company.getRoleManager().getFilteredRoleList().size() + 1);
+        Index outOfRoleBoundIndex = Index.fromOneBased(model.getFilteredRoleList(INDEX_FIRST_COMPANY).size() + 1);
         DeleteRoleCommand deleteRoleCommand2 = new DeleteRoleCommand(INDEX_FIRST_COMPANY, outOfRoleBoundIndex);
         assertCommandFailure(deleteRoleCommand2, model, Messages.MESSAGE_INVALID_ROLE_DISPLAYED_INDEX);
 

@@ -15,7 +15,6 @@ import seedu.tinner.commons.core.index.Index;
 import seedu.tinner.logic.commands.exceptions.CommandException;
 import seedu.tinner.model.Model;
 import seedu.tinner.model.company.Company;
-import seedu.tinner.model.company.RoleManager;
 import seedu.tinner.model.role.Role;
 
 /**
@@ -64,14 +63,11 @@ public class AddRoleCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
         }
 
-        Company currCompany = companyList.get(companyIndex.getZeroBased());
-        RoleManager roleManager = currCompany.getRoleManager();
-
-        if (roleManager.hasRole(toAddRole)) {
+        if (model.hasRole(companyIndex, toAddRole)) {
             throw new CommandException(MESSAGE_DUPLICATE_ROLE);
         }
 
-        roleManager.addRole(toAddRole);
+        model.addRole(companyIndex, toAddRole);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAddRole));
     }
 

@@ -13,6 +13,8 @@ import static seedu.tinner.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 import static seedu.tinner.testutil.TypicalIndexes.INDEX_FIRST_ROLE;
 import static seedu.tinner.testutil.TypicalIndexes.INDEX_SECOND_ROLE;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.tinner.commons.core.Messages;
@@ -21,8 +23,6 @@ import seedu.tinner.model.CompanyList;
 import seedu.tinner.model.Model;
 import seedu.tinner.model.ModelManager;
 import seedu.tinner.model.UserPrefs;
-import seedu.tinner.model.company.Company;
-import seedu.tinner.model.company.RoleManager;
 import seedu.tinner.model.role.Role;
 import seedu.tinner.testutil.EditRoleDescriptorBuilder;
 import seedu.tinner.testutil.RoleBuilder;
@@ -39,10 +39,9 @@ public class EditRoleCommandTest {
         String expectedMessage = String.format(EditRoleCommand.MESSAGE_EDIT_ROLE_SUCCESS, editedRole);
 
         Model expectedModel = new ModelManager(new CompanyList(model.getCompanyList()), new UserPrefs());
-        RoleManager expectedRM = expectedModel.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased())
-                .getRoleManager();
-        Role expectedRole = expectedRM.getFilteredRoleList().get(INDEX_FIRST_ROLE.getZeroBased());
-        expectedRM.setRole(expectedRole, editedRole);
+        List<Role> expectedRoleList = expectedModel.getFilteredRoleList(INDEX_FIRST_COMPANY);
+        Role expectedRole = expectedRoleList.get(INDEX_FIRST_ROLE.getZeroBased());
+        expectedModel.setRole(INDEX_FIRST_COMPANY, expectedRole, editedRole);
 
         assertCommandSuccess(editRoleCommand, model, expectedMessage, expectedModel);
     }
@@ -50,11 +49,8 @@ public class EditRoleCommandTest {
     @Test
     public void execute_someFieldsSpecified_success() {
         Index indexLastCompany = Index.fromOneBased(model.getFilteredCompanyList().size());
-        Company lastCompany = model.getFilteredCompanyList().get(indexLastCompany.getZeroBased());
-
-        RoleManager roleManager = lastCompany.getRoleManager();
-        Index indexLastRole = Index.fromOneBased(roleManager.getFilteredRoleList().size());
-        Role lastRole = roleManager.getFilteredRoleList().get(indexLastRole.getZeroBased());
+        Index indexLastRole = Index.fromOneBased(model.getFilteredRoleList(indexLastCompany).size());
+        Role lastRole = model.getFilteredRoleList(indexLastCompany).get(indexLastRole.getZeroBased());
 
         RoleBuilder roleInList = new RoleBuilder(lastRole);
         Role editedRole = roleInList.withName(VALID_NAME_WHATSAPP)
@@ -69,9 +65,7 @@ public class EditRoleCommandTest {
         String expectedMessage = String.format(EditRoleCommand.MESSAGE_EDIT_ROLE_SUCCESS, editedRole);
 
         Model expectedModel = new ModelManager(new CompanyList(model.getCompanyList()), new UserPrefs());
-        RoleManager expectedRM = expectedModel.getFilteredCompanyList().get(indexLastCompany.getZeroBased())
-                .getRoleManager();
-        expectedRM.setRole(lastRole, editedRole);
+        expectedModel.setRole(indexLastCompany, lastRole, editedRole);
 
         assertCommandSuccess(editRoleCommand, model, expectedMessage, expectedModel);
     }
@@ -81,8 +75,7 @@ public class EditRoleCommandTest {
         EditRoleCommand editRoleCommand = new EditRoleCommand(INDEX_FIRST_COMPANY, INDEX_FIRST_ROLE,
                 new EditRoleCommand.EditRoleDescriptor());
 
-        Company targetCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
-        Role editedRole = targetCompany.getRoleManager().getFilteredRoleList().get(INDEX_FIRST_ROLE.getZeroBased());
+        Role editedRole = model.getFilteredRoleList(INDEX_FIRST_COMPANY).get(INDEX_FIRST_ROLE.getZeroBased());
 
         String expectedMessage = String.format(EditRoleCommand.MESSAGE_EDIT_ROLE_SUCCESS, editedRole);
 
@@ -93,8 +86,7 @@ public class EditRoleCommandTest {
 
     @Test
     public void execute_invalidRoleIndex_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCompanyList()
-                .get(INDEX_FIRST_COMPANY.getZeroBased()).getRoleManager().getFilteredRoleList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredRoleList(INDEX_FIRST_COMPANY).size() + 1);
 
         EditRoleCommand.EditRoleDescriptor descriptor =
                 new EditRoleDescriptorBuilder().withName(VALID_NAME_SOFTWARE_ENGINEER).build();
@@ -105,8 +97,7 @@ public class EditRoleCommandTest {
 
     @Test
     public void equals() {
-        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
-        Role firstRole = firstCompany.getRoleManager().getFilteredRoleList().get(INDEX_FIRST_ROLE.getZeroBased());
+        Role firstRole = model.getFilteredRoleList(INDEX_FIRST_COMPANY).get(INDEX_FIRST_ROLE.getZeroBased());
         EditRoleCommand.EditRoleDescriptor firstDescriptor = new EditRoleDescriptorBuilder(firstRole).build();
 
         final EditRoleCommand standardCommand = new EditRoleCommand(INDEX_FIRST_COMPANY, INDEX_FIRST_ROLE,
