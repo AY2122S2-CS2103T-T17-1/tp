@@ -1,8 +1,11 @@
 @startuml
-!include style.puml
+!include detailed.puml
 skinparam arrowThickness 1.1
 skinparam arrowColor STORAGE_COLOR
 skinparam classBackgroundColor STORAGE_COLOR
+
+Class HiddenOutside #FFFFFF
+HiddenOutside ..> Storage
 
 package Storage{
 
@@ -14,30 +17,40 @@ Class JsonUserPrefsStorage
 Class "<<interface>>\nStorage" as Storage
 Class StorageManager
 
-package "AddressBook Storage" #F4F6F6{
-Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
-Class JsonAddressBookStorage
-Class JsonSerializableAddressBook
-Class JsonAdaptedCompany
-Class JsonAdaptedTag
+
+package "CompanyList Storage" #F4F6F6{
+Class "<<interface>>\nCompanyListStorage" as CompanyListStorage
+Class JsonCompanyListStorage
+Class JsonSerializableCompanyList
+Class JsonAdaptedCompany {
+    {field} name: String
+    {field} phone: String
+    {field} email: String
+    {field} address: String
+    {field} favouriteStatus: String
+}
+Class JsonAdaptedRole {
+    {field} name: String
+    {field} status: String
+    {field} deadline: String
+    {field} description: String
+    {field} stipend: String
 }
 
-}
 
-Class HiddenOutside #FFFFFF
-HiddenOutside ..> Storage
+
 
 StorageManager .up.|> Storage
 StorageManager -up-> "1" UserPrefsStorage
-StorageManager -up-> "1" AddressBookStorage
+StorageManager -up-> "1" CompanyListStorage
 
 Storage -left-|> UserPrefsStorage
-Storage -right-|> AddressBookStorage
+Storage -right-|> CompanyListStorage
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
-JsonAddressBookStorage .up.|> AddressBookStorage
-JsonAddressBookStorage ..> JsonSerializableAddressBook
-JsonSerializableAddressBook --> "*" JsonAdaptedCompany
-JsonAdaptedCompany --> "*" JsonAdaptedTag
+JsonCompanyListStorage .up.|> CompanyListStorage
+JsonCompanyListStorage ..> JsonSerializableCompanyList
+JsonSerializableCompanyList --> "*" JsonAdaptedCompany
+JsonAdaptedCompany *--> "~* roles" JsonAdaptedRole
 
 @enduml

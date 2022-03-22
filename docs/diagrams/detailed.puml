@@ -64,6 +64,18 @@ skinparam Participant {
     Padding 20
 }
 
+skinparam ClassAttribute {
+    FontColor #FFFFFF
+    StereotypeFontColor #FFFFFF
+    FontName Arial
+}
+
+skinparam Object {
+    FontColor #FFFFFF
+    AttributeFontColor #FFFFFF
+    BackgroundColor MODEL_COLOR
+}
+
 
 
 skinparam MinClassWidth 50
@@ -73,5 +85,5 @@ skinparam DefaultTextAlignment center
 skinparam packageStyle Rectangle
 
 hide footbox
-hide members
+hide empty members
 hide circle

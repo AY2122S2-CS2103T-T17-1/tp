@@ -6,6 +6,88 @@ title: Developer Guide
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
+## **Design**
+
+### Architecture
+
+**`Main`** has two classes called [`Main`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/Main.java) and [`MainApp`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/MainApp.java). It is responsible for,
+
+* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
+* At shut down: Shuts down the components and invokes cleanup methods where necessary.
+
+[**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
+
+The rest of the App consists of four components.
+
+* [**`UI`**](#ui-component): The UI of the App.
+* [**`Logic`**](#logic-component): The command executor.
+* [**`Model`**](#model-component): Holds the data of the App in memory.
+* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
+
+Each of the four components,
+
+* defines its _API_ in an `interface` with the same name as the Component.
+* exposes its functionality using a concrete `{Component Name}Manager` class (which implements the corresponding API `interface` mentioned in the previous point.
+
+For example, the `Logic` component (see the class diagram given below) defines its API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class which implements the `Logic` interface.
+
+![Class Diagram of the Logic Component](images/LogicClassDiagram.png)
+
+**How the architecture components interact with each other**
+
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1` when in project view.
+
+<img src="images/ArchitectureSequenceDiagram.png" width="574" />
+
+The sections below give more details of each component.
+
+### UI Component
+
+![Structure of the UI Component](images/UiClassDiagram.png)
+
+**API** :
+[`Ui.java`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/ui/Ui.java)
+
+
+### Logic Component
+
+![Structure of the Logic Component](images/LogicClassDiagram.png)
+
+**API** : 
+[`Logic.java`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/logic/Logic.java)
+
+
+### Model Component
+
+![Structure of the Model Component](images/ModelClassDiagram.png)
+
+**API** : 
+[`Model.java`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/model/Model.java)
+
+
+
+### Storage Component
+
+![Structure of the Storage Component](images/StorageClassDiagram.png)
+
+**API** : 
+[`Storage.java`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/storage/Storage.java)
+
+The `Storage` component,
+
+* can save `UserPref` objects in json format and read it back.
+* can save `JsonAdaptedCompany` objects in `JsonSerializableCompanyList` in json format and read it back.
+* can save `JsonAdaptedRole` objects in `JsonAdaptedCompany` in json format and read it back
+* inherits from both `CompanyListStorage` and `UserPrefStorage`,meaning that it can be 
+  treated as either one (if the functionality of only one is required)
+* depends on classes like `Company` and `Role` in the `Model` component (as it is the `Storage` component's
+  job to save/retrieve objects that belong to the `Model`)
+
+The `JsonAdaptedCompany` also contains a list of roles in `List<JsonAdaptedRole>` format, as show in the class diagram above.
+
+### Common Classes
+
+---
 
 ## Requirements
 
