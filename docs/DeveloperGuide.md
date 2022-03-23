@@ -112,7 +112,7 @@ The `editRole` command for the `Role` item allows the user to update any fields 
 the company index, role index and prefixes of the fields to be updated.
 
 #### Implementation
-The `editRole` command is primarily implemented by `EditRoleCommandParser` a class that extends `Parser` and `EditRoleCommand` a class that extends `Command`. The `EditRoleCommand` has an inner class `EditRoleDescriptor` that holds the changes to the `Role`.
+The `editRole` command is primarily implemented by `EditRoleCommandParser` a class that extends `Parser`, and `EditRoleCommand` is a class that extends `Command`. The `EditRoleCommand` has an inner class `EditRoleDescriptor` that holds the changes to the `Role`.
 
 * Upon a valid user's input using the `editRole` command, the `EditRoleCommandParser#parse()`
   creates an `EditRoleDescriptor` with the edited changes to the `Role` fields.
@@ -131,7 +131,7 @@ The following sequence diagram shows how the `editRole` command operation works 
 3. Then the `EditRoleCommandParser#parse()` method will create an `EditRoleCommand` object with the company index `1`, role index `1` and the `EditRoleDescriptor` object.
 4. The `EditRoleCommand` object will be returned to the `LogicManager` and will then invoke the `EditRoleCommand#execute()` method to implement the changes.
 5. The  `EditRoleCommand#execute()` will check the validity of both the indexes, and invoke the `Model#setRole` method.
-6. The  `Model#setRole` with the company index will set the role to be edited with a new role containing the changes. Then the `Model#updateFilteredRoleList()` will update the changes and reflects the changes in the application to the user.
+6. The  `Model#setRole()` with the company index will set the role to be edited with a new role containing the changes. Then the `Model#updateFilteredRoleList()` filters the list of roles such that the application only displays the edited `Role` to the User.
 7. Upon successful operation, a new `CommandResult` object is returned to the `LogicManager`.
 
 
