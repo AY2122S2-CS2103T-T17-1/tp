@@ -25,7 +25,7 @@ public class Company {
      */
     public Company(CompanyName companyName, Phone phone, Email email, Address address, ReadOnlyRoleList roles,
                    FavouriteStatus favouriteStatus) {
-        requireAllNonNull(companyName, phone, email, address);
+        requireAllNonNull(companyName, phone, email, address, roles, favouriteStatus);
         this.companyName = companyName;
         this.phone = phone;
         this.email = email;

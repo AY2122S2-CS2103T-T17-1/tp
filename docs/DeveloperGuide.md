@@ -78,11 +78,19 @@ The `UI` component,
 
 ![Structure of the Model Component](images/ModelClassDiagram.png)
 
+Breakdown of the Company and RoleManager packages:
+
+![Structure of the Company and RoleManager Classes](images/CompanyRoleManagerClassDiagram.png)
+
 **API** : 
 [`Model.java`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/model/Model.java)
 
+The `Model` component,
 
-
+* stores the company list data i.e., all `Company` objects (which are contained in a `UniqueCompanyList` object). 
+* stores the currently selected `Company` and `Role` objects (e.g., results of a search query) as a separate filtered list which is exposed to outsiders as an unmodifiable `ObservableList` that can be ‘observed’ e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects. 
+* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 ### Storage Component
 
 ![Structure of the Storage Component](images/StorageClassDiagram.png)

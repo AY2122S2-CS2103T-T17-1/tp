@@ -4,47 +4,43 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
+
 Package Model <<Rectangle>>{
-Class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
+Class "<<interface>>\nReadOnlyCompanyList" as ReadOnlyCompanyList
 Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
 Class "<<interface>>\nModel" as Model
-Class AddressBook
+Class CompanyList
 Class ModelManager
 Class UserPrefs
 
-Class UniqueCompanyList
+Package Company\n <<Rectangle>>{
 Class Company
-Class Address
-Class Email
-Class Name
-Class Phone
-Class Tag
+}
+Class UniqueCompanyList
+
+Package RoleManager\n <<Rectangle>> {
+Class RoleManager
+}
 
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
 
-AddressBook .up.|> ReadOnlyAddressBook
+CompanyList .up.|> ReadOnlyCompanyList
 
 ModelManager .up.|> Model
 Model .right.> ReadOnlyUserPrefs
-Model .left.> ReadOnlyAddressBook
-ModelManager -left-> "1" AddressBook
+Model .left.> ReadOnlyCompanyList
+ModelManager -left-> "1" CompanyList
 ModelManager -right-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
-AddressBook *--> "1" UniqueCompanyList
+CompanyList *--> "1" UniqueCompanyList
 UniqueCompanyList --> "~* all" Company
-Company *--> Name
-Company *--> Phone
-Company *--> Email
-Company *--> Address
-Company *--> "*" Tag
+Company *-right-> "1" RoleManager
 
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+
 
 ModelManager -->"~* filtered" Company
 @enduml

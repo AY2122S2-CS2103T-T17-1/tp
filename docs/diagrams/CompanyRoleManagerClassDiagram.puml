@@ -1,0 +1,49 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+
+Package Company\n <<Rectangle>>{
+Class Company
+Class CompanyName
+Class Phone
+Class Email
+Class Address
+Class FavouriteStatus
+}
+
+Package RoleManager\n <<Rectangle>> {
+Class RoleManager
+Class RoleList
+Class UniqueRoleList
+Class Role
+Class RoleName
+Class Status
+Class Deadline
+Class Description
+Class Stipend
+}
+
+
+Class HiddenOutside #FFFFFF
+HiddenOutside --> "~* all" Company
+HiddenOutside --> "~* filtered" Company
+Company *-right-> "1" RoleManager
+Company *--> "1" Address
+Company *--> "1" CompanyName
+Company *--> "1" Phone
+Company *--> "1" Email
+Company *--> "1" FavouriteStatus
+
+RoleManager *-right-> "1" RoleList
+RoleList *-right-> "1" UniqueRoleList
+UniqueRoleList --> "*" Role
+Role *--> "1" RoleName
+Role *--> "1" Description
+Role *--> "1" Deadline
+Role *--> "1" Status
+Role *--> "1" Stipend
+
+@enduml
