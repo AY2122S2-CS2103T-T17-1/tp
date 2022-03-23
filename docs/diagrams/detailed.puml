@@ -68,6 +68,7 @@ skinparam ClassAttribute {
     FontColor #FFFFFF
     StereotypeFontColor #FFFFFF
     FontName Arial
+    IconSize 0
 }
 
 skinparam Object {

@@ -105,6 +105,35 @@ The `JsonAdaptedCompany` also contains a list of roles in `List<JsonAdaptedRole>
 ### Common Classes
 
 ---
+## **Implementation**
+
+### Edit role feature
+The `editRole` command for the `Role` item allows the user to update any fields by specifying
+the company index, role index and prefixes of the fields to be updated.
+
+#### Implementation
+The `editRole` command is primarily implemented by `EditRoleCommandParser` a class that extends `Parser` and `EditRoleCommand` a class that extends `Command`. The `EditRoleCommand` has an inner class `EditRoleDescriptor` that holds the changes to the `Role`.
+
+* Upon a valid user's input using the `editRole` command, the `EditRoleCommandParser#parse()`
+  creates an `EditRoleDescriptor` with the edited changes to the `Role` fields.
+* The `EditRoleCommandParser#parse()` then use the `EditRoleDescriptor` object to instantiate the `EditRoleCommand`.
+* Then invoking the `EditRoleCommand#execute()` method will update the `Role` with the new changes.
+
+
+![UML diagram of the EditRole feature](images/EditRoleDiagram.png)
+
+The following sequence diagram shows how the `editRole` command operation works with the user input `editRole 1 1 d/react js`:
+
+![Sequence diagram of the EditRole feature](images/EditRoleSequenceDiagram.png)
+
+1. The user will first enter the input `editRole 1 1 d/react js`, the `CompayListParser#parseCommand()` method will parse the information `1 1 d/react js` to `EditRoleCommandParser` using the method `parse()` based on the keyword `editRole`.
+2. The `EditRoleCommandParser#parse()` method will create an `EditRoleDescriptor` object with all the non-empty fields with the fields' prefixes that are specified by the user such as `s/`,  `b/`, `d/`, etc. In this example, `EditRoleDescriptor#setDescription()` will be used as the description `d/` is a non-empty field with `react js`.
+3. Then the `EditRoleCommandParser#parse()` method will create an `EditRoleCommand` object with the company index `1`, role index `1` and the `EditRoleDescriptor` object.
+4. The `EditRoleCommand` object will be returned to the `LogicManager` and will then invoke the `EditRoleCommand#execute()` method to implement the changes.
+5. The  `EditRoleCommand#execute()` will check the validity of both the indexes, and invoke the `Model#setRole` method.
+6. The  `Model#setRole` with the company index will set the role to be edited with a new role containing the changes. Then the `Model#updateFilteredRoleList()` will update the changes and reflects the changes in the application to the user.
+7. Upon successful operation, a new `CommandResult` object is returned to the `LogicManager`.
+
 
 ## Requirements
 

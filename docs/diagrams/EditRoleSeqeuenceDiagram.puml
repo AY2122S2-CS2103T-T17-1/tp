@@ -1,0 +1,86 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":CompanyListParser" as CompanyListParser LOGIC_COLOR
+participant ":EditRoleCommandParser" as EditRoleCommandParser LOGIC_COLOR
+participant ":EditRoleDescriptor" as EditRoleDescriptor LOGIC_COLOR
+participant ":EditRoleCommand" as EditRoleCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("editRole 1 1 d/react js")
+activate LogicManager
+
+LogicManager ->CompanyListParser : parseCommand("delete 1")
+activate CompanyListParser
+
+create EditRoleCommandParser
+CompanyListParser -> EditRoleCommandParser
+activate EditRoleCommandParser
+
+EditRoleCommandParser --> CompanyListParser
+deactivate EditRoleCommandParser
+
+CompanyListParser -> EditRoleCommandParser : parse("1 1 d/react js")
+activate EditRoleCommandParser
+
+create EditRoleDescriptor
+EditRoleCommandParser -> EditRoleDescriptor
+activate EditRoleDescriptor
+
+EditRoleDescriptor --> EditRoleCommandParser
+deactivate EditRoleDescriptor
+
+EditRoleCommandParser -> EditRoleDescriptor : setDescription("react js")
+activate EditRoleDescriptor
+
+EditRoleDescriptor --> EditRoleCommandParser
+deactivate EditRoleDescriptor
+
+create EditRoleCommand
+EditRoleCommandParser -> EditRoleCommand : EditRoleCommand(1, 1, editRoleDescriptor)
+activate EditRoleCommand
+
+EditRoleCommand --> EditRoleCommandParser
+deactivate EditRoleCommand
+
+EditRoleCommandParser --> CompanyListParser
+deactivate EditRoleCommandParser
+
+CompanyListParser --> LogicManager
+deactivate CompanyListParser
+
+LogicManager -> EditRoleCommand : execute(model)
+activate EditRoleCommand
+
+EditRoleCommand -> Model : setRole(1, roleToEdit, editedRole)
+activate Model
+
+Model --> EditRoleCommand
+deactivate Model
+
+EditRoleCommand -> Model : updateFilteredRoleList(1, PREDICATE_SHOW_ALL_ROLES);
+activate Model
+
+Model --> EditRoleCommand
+deactivate Model
+
+create CommandResult
+EditRoleCommand-> CommandResult
+activate CommandResult
+
+CommandResult --> EditRoleCommand
+deactivate CommandResult
+
+EditRoleCommand --> LogicManager : result
+deactivate EditRoleCommand
+
+[<--LogicManager
+deactivate LogicManager
+@endum
