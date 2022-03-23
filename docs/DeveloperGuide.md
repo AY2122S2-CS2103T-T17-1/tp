@@ -48,6 +48,23 @@ The sections below give more details of each component.
 **API** :
 [`Ui.java`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/ui/Ui.java)
 
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `CompanyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+
+The `CommandBox` and `ResultDisplay` appear at the top of the application for the user
+to interact with the application.
+
+The `CompanyListPanel` appears at the center of the application displaying key information of `Company`
+from `CompanyCard`.
+
+The `RoleListPanel` appears at the bottom of `CompanyCard` displaying key information of `Role` from `RoleCard`.
+
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the `MainWindow` is specified in `MainWindow.fxml`
+
+The `UI` component,
+* executes user commands using the `Logic` component.
+* listens for changes to `Model` data so that the `UI` can be updated with the modified data.
+* keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
+* depends on some classes in the `Model` component, as it displays `Company` and `Role` objects residing in the `Model`.
 
 ### Logic Component
 

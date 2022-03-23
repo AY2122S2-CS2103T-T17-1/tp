@@ -15,6 +15,8 @@ Class CompanyListPanel
 Class CompanyCard
 Class StatusBarFooter
 Class CommandBox
+Class RoleListPanel
+Class RoleCard
 }
 
 package Model <<Rectangle>> {
@@ -36,7 +38,7 @@ MainWindow *-down-> "1" CompanyListPanel
 MainWindow *-down-> "1" StatusBarFooter
 MainWindow --> "0..1" HelpWindow
 
-CompanyListPanel -down-> "*" CompanyCard
+CompanyListPanel *-down-> "*" CompanyCard
 
 MainWindow -left-|> UiPart
 
@@ -46,10 +48,16 @@ CompanyListPanel --|> UiPart
 CompanyCard --|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow --|> UiPart
+RoleListPanel --|> UiPart
+RoleCard --|> UiPart
 
 CompanyCard ..> Model
+RoleCard ..> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
+
+CompanyCard *-down-> "0..1" RoleListPanel
+RoleListPanel *-down-> "*" RoleCard
 
 CompanyListPanel -[hidden]left- HelpWindow
 HelpWindow -[hidden]left- CommandBox
