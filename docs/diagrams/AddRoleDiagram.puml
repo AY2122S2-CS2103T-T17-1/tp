@@ -1,0 +1,28 @@
+@startuml
+!include detailed.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+Class AddRoleCommandParser {
+    +AddRoleCommand parse(String args)
+}
+Class AddRoleCommand {
+    -Index companyIndex
+    -Role role
+    +AddRoleCommand(Index companyIndex, Role role)
+    +CommandResult execute(Model model)
+}
+Class Role
+Class "<<interface>>\nParser" as Parser
+Class "{abstract}\nCommand" as Command
+
+AddRoleCommand -right-> Role
+AddRoleCommand -up-|> Command
+
+AddRoleCommandParser -up-|> Parser
+AddRoleCommandParser .down.> AddRoleCommand: creates >
+AddRoleCommandParser .down.> Role: creates >
+
+AddRoleCommandParser -[hidden]Down- AddRoleCommand
+@enduml

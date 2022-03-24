@@ -9,8 +9,10 @@ title: Developer Guide
 ## **Design**
 
 ### Architecture
+The Architecture Diagram given above explains the high-level design of the Tinner. Tinner follows a multi-layered architecture where the lower layers are independent of higher layers. For example, `Main` can use methods found in `Storage` but not the other way around.
+Below is a quick overview of main components and how they interact with each other.
 
-**`Main`** has two classes called [`Main`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/Main.java) and [`MainApp`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/MainApp.java). It is responsible for,
+**`Main`** has two classes called [`Main`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/Main.java) and [`MainApp`](https://github.com/AY2122S2-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/tinner/MainApp.java). It is responsible for,
 
 * At app launch: Initializes the components in the correct sequence, and connects them up with each other.
 * At shut down: Shuts down the components and invokes cleanup methods where necessary.
@@ -35,9 +37,9 @@ For example, the `Logic` component (see the class diagram given below) defines i
 
 **How the architecture components interact with each other**
 
-The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1` when in project view.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `deleteCompany 1` when in project view.
 
-<img src="images/ArchitectureSequenceDiagram.png" width="574" />
+![Sequence Diagram of the deleteCompany](images/LogicClassDiagram.png)
 
 The sections below give more details of each component.
 
@@ -114,6 +116,34 @@ The `JsonAdaptedCompany` also contains a list of roles in `List<JsonAdaptedRole>
 
 ---
 ## **Implementation**
+
+### Add role feature
+The `addRole` command for the `Role` item allows the user to add a new role by specifying
+the company index this role is attached to, and the details of the role with the appropriate prefix.
+
+### Implementation
+The `addRole` command is primarily implemented by `AddRoleCommandParser` a class that extends `Parser`, and `AddRoleCommand` is a class that extends `Command`. The `AddRoleCommandParser` would store the user inputs, if valid, inside a new `Role` object.
+ensure user provided all necessary fields before storing it in a new `Role` object and calling `Add
+
+* Upon a valid user's input using the `addRole` command, the `AddRoleCommandParser#parse()` creates a new `Role` object that contains its descriptions.
+* The `AddRoleCommandParser#parse()` would then call `AddRoleCommand` with the new `Role` object and company index.
+* The `AddRoleCommand#execute()` would then be invoked which adds this new `Role` into the `RoleManager` of the respective company.
+
+![UML diagram of the AddRole feature](images/AddRoleDiagram.png)
+
+The following sequence diagram shows how the `addRole` command operation works with the user input `addRole 1 n/Data Analyst s/applying b/31-03-2022 23:59`:
+
+![Sequence diagram of the AddRole feature](images/AddRoleSequenceDiagram.png)
+
+1. The user will first enter the input `addRole 1 n/Data Analyst s/applying b/31-03-2022 23:59`, the `CompayListParser#parseCommand()` method would parse and detect `addRole` as the keyword, hence passing `1 n/Data Analyst s/applying b/31-03-2022 23:59` to `AddRoleCommandPaser`
+2. The `AddRoleCommandParser#parse()` method will
+    1. Seperate the index `1` from the content `n/Data Analyst s/applying b/31-03-2022 23:59`
+    2. Using prefixes (i.e. `n/` for `RoleName`, `s/` for `Status`), check that all necessary fields are present and that each of the fields present are valid before instantiating a new `Role` object with them.
+3. The `AddRoleCommandParser#parse()` then create an `AddRoleCommand` and pass the `Role` object and company index `1`.
+4. The `AddRoleCommand` object will be returned to the `LogicManager` and will then invoke the `AddRoleCommand#execute()` method to add it into the model.
+5. The `AddRoleCommand#execute()` does 2 checks, firstly a duplicate check and secondly a validity check on the company index. After which it invokes `Model#addRole` method.
+6. The `Model#addRole()` add the new `Role` into the company at index `1`.
+7. Upon successful operation, a new `CommandResult` object is returned to the `LogicManager`.
 
 ### Edit role feature
 The `editRole` command for the `Role` item allows the user to update any fields by specifying
