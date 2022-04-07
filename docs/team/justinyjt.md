@@ -20,7 +20,7 @@ Given below are my contributions to the project.
 * **New Feature**: Added the `Reminder` feature logic for the application. (Pull request [\#167](https://github.com/AY2122S2-CS2103T-T17-1/tp/pull/167))
   * What it does: Creates a list of reminders based on upcoming reminder dates of the roles in Tinner's company list.
   * Justification: This feature allows users to be reminded of significant dates related to their internship and is one of the main value propositions of the application.
-  * Highlights: Thisfeature required major changes to multiple components of the code such as the `MainApp` and `Model`.
+  * Highlights: This feature required major changes to multiple components of the code such as the `MainApp` and `Model`.
 
 * **New Feature**: Added the `setWindow` command to set the reminder window. (Pull request [\#175](https://github.com/AY2122S2-CS2103T-T17-1/tp/pull/175))
   * What it does: Allows the user to customize the reminder window to any number of days between 1 and 30.
